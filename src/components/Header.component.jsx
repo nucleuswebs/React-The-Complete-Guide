@@ -6,13 +6,18 @@ import brandUrl from '../assets/svg/brand.svg';
 
 export default class HeaderComponent extends React.Component
 {
+    constructor(props)
+    {
+        super(props);
+    }
+
     render() {
         return(
             <header id="header-component">
                 <div className="brand-wrapper">
-                    <img src={brandUrl} alt="Academy"/>
+                    <img src={brandUrl} alt="Academy - Youtube Website"/>
                 </div>
-                <SearchComponent />
+                <SearchComponent handleSearchVideo={this.props.handleSearchVideo} />
             </header>
         )
     }
