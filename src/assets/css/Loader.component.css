@@ -1,0 +1,16 @@
+#loader-component
+{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: #FFFFFF;
+    z-index: 999;
+    display: none;
+}
+
+#loader-component.--isActive {
+    display: block;
+}

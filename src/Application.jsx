@@ -1,6 +1,9 @@
 import React, {Fragment} from 'react';
 import axios from 'axios';
+
 import HeaderComponent from "./components/Header.component";
+import LoaderComponent from "./components/Loader.component";
+import FormComponent from "./components/Form.component";
 
 export default class Application extends React.Component
 {
@@ -8,33 +11,96 @@ export default class Application extends React.Component
     {
         super(props);
 
-        this.handleSearchVideoByTerm = this.handleSearchVideoByTerm.bind(this);
+        this.state = {
+            isLoading: false,
+            todoList: [],
+            todoItem: null,
+        }
     }
 
-    componentDidMount() {
-    }
+    componentWillMount() {
+        this.toggleLoader();
 
-    async handleSearchVideoByTerm( term ) {
-        const response = await axios.get('https://www.googleapis.com/youtube/v3/search', {
-            params: {
-                q: term,
-                part: "snippet",
-                key: "AIzaSyC-bNL2Hrd7MXuLzHJb9vS2RoiJhOMUK88",
-                maxResults: 25,
-            }
+        this.getTodoList().then((response) => {
+           const todoItems = response.data;
+           const filteredItems = todoItems.filter(function(todoItem,todoKey) {
+              return todoItem.userId === 4;
+           });
+
+           this.setState({
+               todoList: filteredItems,
+           });
+
+           this.toggleLoader();
         });
-
-        console.log(response);
-        // you will have to do something with the response
     }
+
+    toggleLoader = () => {
+        const isLoading = this.state.isLoading;
+        this.setState({isLoading: !isLoading})
+    }
+
+    addItemInTodoList = (title, completed) => {
+        const todoList = this.state.todoList;
+
+        const todoItem = {
+            title: title,
+            completed: completed,
+            userId: 4
+        };
+
+        todoList.push(todoItem);
+
+        this.setState({
+            todoList: todoList
+        })
+    };
+
+    getTodoList() {
+        return axios.get('https://jsonplaceholder.typicode.com/todos');
+    }
+
+    changeStatus = (todoKey) => {
+        const todoList = this.state.todoList;
+
+        todoList[todoKey].completed = !todoList[todoKey].completed;
+
+        this.setState({
+            todoList: todoList
+        })
+    }
+
+
 
     render() {
+        console.log(this.state);
+        const isLoading = this.state.isLoading;
+        const todoList = this.state.todoList;
+
         return (
             <Fragment>
                 <HeaderComponent/>
+                <FormComponent addTodoList={this.addItemInTodoList}/>
                 <main className="wrapper">
-                    You will need to make the content here
+                    <h1>Todo List</h1>
+                    <ol>
+                        {
+                            todoList.map((todoItem, todoKey) =>
+                                <li
+                                    key={todoKey}
+                                    onClick={(event) => {
+                                        this.changeStatus(todoKey);
+                                    }}
+                                >
+                                    <span>{todoItem.title}</span>
+                                    <br/>
+                                    <span><b>{todoItem.completed.toString()}</b></span>
+                                </li>
+                            )
+                        }
+                    </ol>
                 </main>
+                <LoaderComponent isLoading={isLoading} />
             </Fragment>
         )
     }
