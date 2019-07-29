@@ -1,9 +1,13 @@
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import LayoutComponent from './components/Layout.component';
-
+import { testDispatch } from './store/actions/Todo.actions';
 class Application extends React.Component
 {
+    componentDidMount() {
+        this.props.dispatch(testDispatch());
+    }
+
     render() {
         return (
             <Fragment>
