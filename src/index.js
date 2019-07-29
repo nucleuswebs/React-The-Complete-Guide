@@ -1,11 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
-import './index.css';
-import Application from './Application';
+import { Provider } from "react-redux";
 import * as serviceWorker from './serviceWorker';
 
+import ConfigureStore from "./store/store";
+import Application from './Application';
+
+import './index.css';
+
+const store = ConfigureStore({});
 const element  = document.getElementById('academy-app');
 
-ReactDOM.render(<Application />, element);
+ReactDOM.render(
+    <Provider store={store}>
+        <Application />
+    </Provider>,
+    element
+);
 serviceWorker.unregister();
