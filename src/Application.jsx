@@ -1,8 +1,8 @@
-import React, {Fragment} from 'react';
+import React, { Fragment } from 'react';
+import { connect } from 'react-redux';
 import LayoutComponent from './components/Layout.component';
 
-
-export default class Application extends React.Component
+class Application extends React.Component
 {
     render() {
         return (
@@ -12,3 +12,11 @@ export default class Application extends React.Component
         )
     }
 }
+
+const mapStateToProps = state => ({
+    todo: state.todo
+});
+
+const mapDispatchToProps = dispatch => ({ dispatch });
+
+export default connect(mapStateToProps,mapDispatchToProps)(Application)
