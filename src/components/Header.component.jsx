@@ -1,8 +1,6 @@
 import React from 'react';
 import brandUrl from '../assets/svg/brand.svg';
 
-import '../assets/css/Header.component.css';
-
 export default class HeaderComponent extends React.Component
 {
     render() {
