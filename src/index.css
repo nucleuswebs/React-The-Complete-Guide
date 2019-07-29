@@ -43,6 +43,13 @@ body {
   padding: 15px 15px;
 }
 
+.todoList li:nth-child(even){
+  background: gray;
+  color: #FFFFFF;
+  margin-top: 10px;
+  list-style-type: circle;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
